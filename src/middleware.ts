@@ -19,7 +19,8 @@ export function middleware(request: NextRequest) {
     // Check for token and redirect if not found
   const devToken = request.cookies.get('next-auth.session-token')
   const prodToken = request.cookies.get('__Secure-next-auth.session-token')
-    if(!devToken || !prodToken){
+  const token = devToken ?? prodToken
+    if(!token){
         return NextResponse.redirect(new URL('/login', request.url))
     } else {
         return NextResponse.next()
