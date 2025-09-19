@@ -5,7 +5,7 @@ import Link from 'next/link';
 
 export default async function ThankYouPage() {
 
-  const {data : products} = await getProducts()
+  const {data : products} = (await getProducts())!
 
 
   return (

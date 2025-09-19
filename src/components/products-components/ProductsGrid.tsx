@@ -34,7 +34,7 @@ export default function ProductsGrid({ products }: { products: Product[] }) {
           ))
         ) : (
           <p className="col-span-full text-center text-gray-500">
-            Oops! We couldn't find any products matching your search.
+            {`Oops! We couldn't find any products matching your search.`}
           </p>
         )}
     </div>

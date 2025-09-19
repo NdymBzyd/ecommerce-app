@@ -52,7 +52,7 @@ export default function WishlistGrid() {
   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
     {wishlistDetails?.data.map((item) => (
         <Card key={item._id} className="relative group overflow-hidden">
-            {item.priceAfterDiscount > 0 ? (
+            {item.priceAfterDiscount && item.priceAfterDiscount > 0 ? (
                 <div className="absolute right-0 top-0 h-16 w-16">
                   <div
                     className="absolute transform rotate-45 bg-green-600 text-center text-white font-semibold py-1 right-[-65px] top-[18px] w-[200px]">
@@ -79,7 +79,7 @@ export default function WishlistGrid() {
         </Link>
             <CardFooter className="flex-row justify-between gap-1">
                 <div>
-                    {item.priceAfterDiscount > 0 ? (
+                    {item.priceAfterDiscount && item.priceAfterDiscount > 0 ? (
                                 <h2 className="text-xl">
                             <div>
                             <span className='line-through text-slate-500'>{item.price}</span> EGP

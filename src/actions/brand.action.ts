@@ -27,7 +27,7 @@ export async function getBrands() {
     }
 }
 
-export async function getBrandDetails(id) {
+export async function getBrandDetails(id : string) {
     try {
     
         const response = await axios.get(`https://ecommerce.routemisr.com/api/v1/brands/${id}`)

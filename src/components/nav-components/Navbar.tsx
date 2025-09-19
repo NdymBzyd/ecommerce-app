@@ -1,5 +1,20 @@
 "use client"
 import React, { useEffect, useState } from 'react'
+import { Button } from "@/components/ui/button"
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuPortal,
+  DropdownMenuSeparator,
+  DropdownMenuShortcut,
+  DropdownMenuSub,
+  DropdownMenuSubContent,
+  DropdownMenuSubTrigger,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
 import {
     NavigationMenu,
     NavigationMenuItem,
@@ -12,10 +27,14 @@ import { Badge } from "@/components/ui/badge"
 import { useCart } from '@/app/Context/CartContext';
 import { useWishlist } from '@/app/Context/WishlistContext';
 import Image from 'next/image';
+import { NavigationMenuLink } from '@radix-ui/react-navigation-menu';
+import { getUserData } from '@/actions/user.action'
+import { set } from 'react-hook-form'
 
 export default function Navbar() {
 
   const [visible, setVisible] = useState(true)
+
   const [lastScrollY, setLastScrollY] = useState(0)
 
   useEffect(() => {
@@ -34,6 +53,23 @@ export default function Navbar() {
       window.removeEventListener("scroll", handleScroll)
     }
   },[lastScrollY] )
+
+  const [userName, setUserName] = useState<string | null>(null)
+  const firstName = userName?.split(" ")[0] || null
+
+  useEffect(() => {
+  
+    async function fetchUser() {
+      try {
+        const userData = await getUserData();
+        setUserName(userData?.decoded.name);
+      } catch (error) {
+        console.log(error);
+        
+      }
+    }
+    fetchUser()
+},[])
 
   const session = useSession()
   // console.log(session, "session at brands page");
@@ -80,7 +116,7 @@ export default function Navbar() {
       <NavigationMenuItem className='text-md font-bold gap-4 transition-all duration-200 hover:text-teal-400'>
           <Link href="/cart">
               <button className='relative cursor-pointer'>
-                {cartDetails?.numOfCartItems >= 0 ? (
+                {cartDetails && cartDetails?.numOfCartItems >= 0 ? (
               <Badge className='bg-teal-800 rounded-full absolute top-[-18px] right-[-13px] text-[10px]'>{cartDetails?.numOfCartItems}</Badge>
               ):null}
             <ShoppingCart />
@@ -91,7 +127,7 @@ export default function Navbar() {
       <NavigationMenuItem className='text-md font-bold gap-4 transition-all duration-200 hover:text-rose-400'>
           <Link href="/wishlist">
               <button className='relative cursor-pointer'>
-                {wishlistDetails?.count >= 0 ? (
+                {wishlistDetails && wishlistDetails?.count >= 0 ? (
               <Badge className='bg-pink-800 rounded-full absolute top-[-18px] right-[-13px] text-[10px]'>{wishlistDetails?.count}</Badge>
                 ) :null }
                 <Heart />
@@ -107,10 +143,30 @@ export default function Navbar() {
           <Link href="/register">Register</Link>
       </NavigationMenuItem>
       </>
-      :
-      <NavigationMenuItem className='text-md font-bold gap-4 transition-all duration-200 hover:text-pink-800'>
+            :
+            <>
+              
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <Button className='bg-transparent border-0 hover:bg-slate-900 hover:text-white' variant="outline">{firstName}</Button>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent className="w-56 px-3 text-white bg-gradient-to-r from-slate-800 via-slate-700 to-slate-800" align="start">
+                  <DropdownMenuLabel>Welcome back!</DropdownMenuLabel>
+        <DropdownMenuSeparator />
+        <DropdownMenuGroup>
+          <DropdownMenuItem>
+          <Link href="/allorders">My Orders</Link>
+          </DropdownMenuItem>
+          <DropdownMenuItem>
+          <Link href="/settings">Settings</Link>
+          </DropdownMenuItem>
+          <DropdownMenuItem>
           <Link href="/" onClick={()=> signOut({callbackUrl:"/login"})} >Logout</Link>
-      </NavigationMenuItem>
+          </DropdownMenuItem>
+        </DropdownMenuGroup>
+      </DropdownMenuContent>
+    </DropdownMenu>
+      </>
       }
 
     <NavigationMenuList/>

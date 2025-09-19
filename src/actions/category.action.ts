@@ -27,7 +27,7 @@ export async function getCategories() {
     }
 }
 
-export async function getCategoryDetails(id) {
+export async function getCategoryDetails(id : string) {
     try {
     
         const response = await axios.get(`https://ecommerce.routemisr.com/api/v1/categories/${id}`)

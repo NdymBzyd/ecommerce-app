@@ -24,7 +24,7 @@ async function getProducts() {
     }
 }
 
-async function getProductsDetails(id) {
+async function getProductsDetails(id : string) {
     try {
     
         const response = await axios.get(`https://ecommerce.routemisr.com/api/v1/products/${id}`)

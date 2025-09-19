@@ -4,7 +4,7 @@ import React from 'react'
 
 export default async function ProductsPage() {
 
-  const {data : products} = await getProducts()
+  const {data : products} = (await getProducts())!
 
 
   return (

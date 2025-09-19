@@ -3,7 +3,6 @@ import { Input } from '@/components/ui/input'
 import { Button } from "@/components/ui/button"
 import React, { useState } from 'react'
 import { useForm } from 'react-hook-form'
-import axios from 'axios'
 import { useRouter } from 'next/navigation'
 import { signIn } from 'next-auth/react'
 import Link from 'next/link';
@@ -13,6 +12,7 @@ export default function LoginPage() {
 
   
   const [errorMessage, setErrorMessage] = useState(null)
+  const [isLoading, setIsLoading] = useState(false)
 
   interface Inputs{
     email:string;
@@ -22,7 +22,9 @@ export default function LoginPage() {
   const router = useRouter();
 
   async function onSubmit(values: Inputs){
-    console.log(values,"login");
+    console.log(values, "login");
+    setIsLoading(true);
+
     try{
       const response = await signIn("credentials",{
         email:values.email,
@@ -36,7 +38,8 @@ export default function LoginPage() {
     }
     catch (error){
       console.log(error);
-      
+    } finally {
+      setIsLoading(false);
     }
 
   }
@@ -46,7 +49,7 @@ export default function LoginPage() {
   return (
     <Card className='w-1/4 mx-auto my-40 bg-gradient-to-br from-slate-600 to-pink-800 shadow-lg'>
           <div className='px-10 text-black'>
-        <h2 className="text-3xl font-bold my-5 text-slate-50 text-shadow-lg">Login</h2>
+        <h2 className="text-3xl font-bold my-5 text-slate-50 text-shadow-lg/30">Login</h2>
         {errorMessage && <p className='text-red-600'>{errorMessage}</p>}
       <form onSubmit={handleSubmit(onSubmit)}>
 
@@ -59,13 +62,18 @@ export default function LoginPage() {
         {...register("password", {required:"Password is required."})} />
         {errors.password && <p className='text-red-600'>{errors.password.message}</p>}
 
-        <p className="text-start text-sm text-slate-50">Don't have an account?<span> </span>
-          <Link href='/register'>
-            <span className='text-cyan-300 underline'>Sign-Up!</span>
+        <p className="text-start text-sm text-slate-50">{`Forgot your password?`}<span> </span>
+          <Link href='/forget-password'>
+            <span className='text-cyan-300 underline hover:text-blue-600'>Click here!</span>
             </Link>
-        </p>
+          </p>
+        <p className="text-start text-sm text-slate-50">{`Don't have an account?`}<span> </span>
+          <Link href='/register'>
+            <span className='text-cyan-300 underline hover:text-blue-600'>Sign-Up!</span>
+            </Link>
+          </p>
 
-        <Button type='submit' className='px-7 my-5'>Login</Button>
+          <Button type='submit' disabled={isLoading} className='px-7 hover:bg-slate-900 hover:text-white'>{`Login`}</Button>
       </form>
 
     </div>

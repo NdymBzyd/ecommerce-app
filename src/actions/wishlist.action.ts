@@ -8,7 +8,9 @@ export async function getWishlist() {
     try {
         
         const token = await getUserToken()
-        
+        if (!token) {
+            throw new Error("No token found");
+        }
         const response = await axios.get(
             "https://ecommerce.routemisr.com/api/v1/wishlist", {
                 headers:{

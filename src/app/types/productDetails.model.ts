@@ -19,10 +19,6 @@ export interface SubCategory{
     category?: string;
 }
 
-export interface Review{
-    //If needed
-}
-
 export interface ProductDetails {
 
     _id: string;
@@ -39,7 +35,7 @@ export interface ProductDetails {
     ratingsQuantity: number;
     imageCover: string;
     images: string[];
-    reviews: Review[];
+    // reviews: Review[];
     createdAt: string;
     updatedAt: string;
     __v: number;
