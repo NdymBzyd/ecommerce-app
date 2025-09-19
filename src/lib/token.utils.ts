@@ -1,17 +1,28 @@
-import { decode } from "next-auth/jwt"
-import { cookies } from "next/headers"
+import { decode } from "next-auth/jwt";
+import { cookies } from "next/headers";
 
-export async function getUserToken(){
+export async function getUserToken() {
+  // cookies() is sync, no await
+  const cookieStore = await cookies();
 
-        // Get the encrypted token from cookies
-    const encryptedToken = (await cookies()).get("next-auth.session-token")?.value
-    console.log("Encrypted Token:", encryptedToken);
+  // Prod uses "__Secure-next-auth.session-token"
+  const prodToken = cookieStore.get("__Secure-next-auth.session-token")?.value;
 
-        // Decrypt the token to get the actual JWT
-        const decodedToken = await decode({ token : encryptedToken , secret : process.env.AUTH_SECRET as string})
-        console.log(decodedToken, "decodedToken");
-    
-        const token = decodedToken?.token
+  // Local dev uses "next-auth.session-token"
+  const devToken = cookieStore.get("next-auth.session-token")?.value;
 
-    return token
+  const encryptedToken = prodToken || devToken;
+  console.log("Encrypted Token:", encryptedToken);
+
+  if (!encryptedToken) return null;
+
+  // Decode JWT (this is async)
+  const decodedToken = await decode({
+    token: encryptedToken,
+    secret: process.env.NEXTAUTH_SECRET as string, // ⚡ use NEXTAUTH_SECRET, not AUTH_SECRET
+  });
+
+  console.log("Decoded Token:", decodedToken);
+
+  return decodedToken?.token || null;
 }
