@@ -64,10 +64,10 @@ export default function MainSlider() {
 
             {/* Text Overlay */}
             <div className="absolute top-[50px] sm:top-[100px] left-4 sm:left-[50px] w-[90%] sm:w-1/3 px-4 sm:px-20">
-              <h2 className="text-3xl sm:text-8xl font-bold text-white text-shadow-lg/30 leading-tight">
+              <h2 className="text-start text-3xl sm:text-8xl font-bold text-white text-shadow-lg/30 leading-tight">
                 {slide.title}
               </h2>
-              <p className="py-2 sm:py-4 text-white text-shadow-lg/30 text-sm sm:text-base">
+              <p className="py-2 sm:py-4 text-white text-shadow-lg/30 text-lg sm:text-2xl">
                 {slide.description}
               </p>
               <button className="cursor-pointer px-3 py-2 sm:px-4 sm:py-2 bg-white hover:bg-black transition-all text-[14px] sm:text-[18px] duration-500 rounded text-black hover:text-white flex items-center gap-2">

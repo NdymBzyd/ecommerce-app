@@ -102,7 +102,8 @@ export default function Navbar() {
 
           {/* User Menu */}
           {session.data ? (
-            <DropdownMenu>
+            <div className='hidden sm:flex'>
+              <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Button className="bg-transparent border-0 hover:bg-slate-900 hover:text-white" variant="outline">{firstName}</Button>
               </DropdownMenuTrigger>
@@ -116,6 +117,7 @@ export default function Navbar() {
                 </DropdownMenuGroup>
               </DropdownMenuContent>
             </DropdownMenu>
+            </div>
           ) : (
               <div className="hidden sm:flex gap-4">
                 <div className='text-md font-bold gap-4 transition-all duration-200 hover:text-teal-400'>
@@ -141,14 +143,13 @@ export default function Navbar() {
     {session.data ? (
       <>
         {/* Links for logged-in users */}
-        <Link href="/">Home</Link>
-        <Link href="/products">Products</Link>
-        <Link href="/categories">Categories</Link>
-        <Link href="/brands">Brands</Link>
-        <Link href="/cart">Cart</Link>
-        <Link href="/wishlist">Wishlist</Link>
-        <Link href="/settings">Settings</Link>
-        <Link href="/" onClick={() => signOut({ callbackUrl: "/login" })}>Logout</Link>
+        <Link href="/" className='transition-all duration-300 hover:text-teal-400'>Home</Link>
+        <Link href="/products" className='transition-all duration-300 hover:text-teal-400'>Products</Link>
+        <Link href="/categories" className='transition-all duration-300 hover:text-teal-400'>Categories</Link>
+        <Link href="/brands" className='transition-all duration-300 hover:text-teal-400'>Brands</Link>
+        <Link href="/allorders" className='transition-all duration-300 hover:text-teal-400'>My Orders</Link>
+        <Link href="/settings" className='transition-all duration-300 hover:text-teal-400'>Settings</Link>
+        <Link href="/" className='transition-all duration-300 hover:text-red-800' onClick={() => signOut({ callbackUrl: "/login" })}>Logout</Link>
       </>
     ) : (
       <>
