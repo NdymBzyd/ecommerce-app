@@ -3,13 +3,12 @@ import { Input } from '@/components/ui/input'
 import { Button } from "@/components/ui/button"
 import React, { useState } from 'react'
 import { useForm } from 'react-hook-form'
-import axios from 'axios'
 import { useRouter } from 'next/navigation'
-import { watch } from 'fs'
 import { useCart } from '../Context/CartContext'
 import { getCashCheckout, getOnlineCheckout } from '@/actions/payment.action'
 import { Label } from "@/components/ui/label"
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
+import { Card } from '@/components/ui/card';
 
 export default function CheckOutPage() {
     interface Inputs{
@@ -20,7 +19,7 @@ export default function CheckOutPage() {
     const [errorMessage, setErrorMessage] = useState(null)
     const { cartDetails, setCartDetails } = useCart()
     const cartId = cartDetails?.cartId
-    const {register, handleSubmit, formState:{errors}, watch } = useForm<Inputs>()
+    const {register, handleSubmit, formState:{errors}} = useForm<Inputs>()
     const router = useRouter();
     const [checkoutType, setCheckoutType] = useState<"cash" | "online"> ("cash")
   async function onSubmit(values: Inputs) {
@@ -63,31 +62,32 @@ export default function CheckOutPage() {
   
     return (
       <>
-            <div className='w-1/2 mx-auto my-10'>
-          <h2 className="text-3xl tracking-tighter font-bold my-5">Checkout</h2>
+        <Card className='w-1/2 mx-auto my-40 bg-gradient-to-br from-slate-600 to-pink-800 shadow-lg'>
+        <div>
+          <h2 className="text-3xl font-bold my-5 text-slate-50 text-shadow-lg/30">Checkout</h2>
           {errorMessage && <p className='text-red-600'>{errorMessage}</p>}
         <form onSubmit={handleSubmit(onSubmit)}>
 
-          <Input type='text' placeholder='Your Name . . .' className='p-5 my-5'
+          <Input type='text' placeholder='Your Name . . .' className='p-5 my-5 bg-blue-50'
           {...register("details", {required:"Details is required."})} />
           {errors.details && <p className='text-red-600'>{errors.details.message}</p>}
   
-          <Input type='text' placeholder='Your Name . . .' className='p-5 my-5'
+          <Input type='text' placeholder='Your Name . . .' className='p-5 my-5 bg-blue-50'
           {...register("city", {required:"City is required."})} />
           {errors.city && <p className='text-red-600'>{errors.city.message}</p>}
   
-          <Input type='tel' placeholder='Your phone number' className='p-5 my-5'
+          <Input type='tel' placeholder='Your phone number' className='p-5 my-5 bg-blue-50'
           {...register("phone", {required:"Phone number is required."})} />
           {errors.phone && <p className='text-red-600'>{errors.phone.message}</p>}
         <div>
           <RadioGroup onValueChange={(val)=> setCheckoutType(val as "online" | "cash")} defaultValue="cash">
             <div className="flex items-center space-x-2">
               <RadioGroupItem value="cash" id="cash" />
-              <Label htmlFor="cash">Cash on delivery</Label>
+              <Label htmlFor="cash" className='text-slate-50'>Cash on delivery</Label>
             </div>
             <div className="flex items-center space-x-2">
               <RadioGroupItem value="online" id="online" />
-              <Label htmlFor="online">Online payment</Label>
+              <Label htmlFor="online" className='text-slate-50'>Online payment</Label>
             </div>
           </RadioGroup>
             </div>
@@ -99,6 +99,8 @@ export default function CheckOutPage() {
             }
         </form>
         </div>
+
+        </Card>
       </>
     )
   }

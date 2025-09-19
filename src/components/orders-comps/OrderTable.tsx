@@ -12,7 +12,6 @@ import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import Image from "next/image"
 import Link from "next/link"
-import { Trash } from "lucide-react"
 import { getUserOrders } from "@/actions/user.action"
 import { OrderDetails } from "@/app/types/orders.model"
 
