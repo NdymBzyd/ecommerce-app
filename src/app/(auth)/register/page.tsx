@@ -52,8 +52,8 @@ export default function RegisterPage() {
 
   return (
 
-<Card className='w-1/4 mx-auto my-40 bg-gradient-to-br from-slate-600 to-pink-800 shadow-lg'>
-<div className='px-10 text-black'>
+<Card className='w-full sm:w-3/4 md:w-1/2 lg:w-1/4 px-10 py-30 sm:py-5 mx-auto my-40 bg-gradient-to-br from-slate-600 to-pink-800 shadow-lg'>
+<div className='sm:px-10 text-black'>
         <h2 className="text-3xl font-bold my-5 text-slate-50 text-shadow-lg/30">Register</h2>
         {errorMessage && <p className='text-red-600'>{errorMessage}</p>}
       <form onSubmit={handleSubmit(onSubmit)}>
@@ -89,7 +89,7 @@ export default function RegisterPage() {
         {...register("phone", {required:"Phone number is required."})} />
         {errors.phone && <p className='text-red-600'>{errors.phone.message}</p>}
 
-        <p className="text-start text-sm text-slate-50">Already a member?<span> </span>
+        <p className="text-start text-sm text-slate-50 mb-5">Already a member?<span> </span>
           <Link href='/login'>
             <span className='text-cyan-300 underline hover:text-blue-600'>Login here!</span>
             </Link>

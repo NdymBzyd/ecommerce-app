@@ -54,7 +54,7 @@ export default function OTPPage() {
 
   return (
 
-<Card className='w-1/4 mx-auto my-40 bg-gradient-to-br from-slate-600 to-pink-800 shadow-lg'>
+<Card className='w-full sm:w-3/4 md:w-1/2 lg:w-1/4 py-30 sm:py-5 mx-auto my-40 bg-gradient-to-br from-slate-600 to-pink-800 shadow-lg'>
 <div className='px-10 text-black'>
         <h2 className="text-3xl font-bold my-5 text-slate-50 text-shadow-lg/30">Verification Code</h2>
         <p className='text-slate-50 text-shadow-lg/30'>{`Thank you. An email will be sent containing the verification code to reset your password. Please do not share this code with anyone.`}</p>

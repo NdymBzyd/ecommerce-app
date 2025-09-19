@@ -17,16 +17,25 @@ export default function CategorySliderComp({category} : { category:Categories[]}
   return (
     <>
     <div className="container mx-auto">
-        <h2 className="text-start text-4xl tracking-tighter py-7 font-bold">Categories</h2>
+        <h2 className="text-start text-4xl tracking-tighter py-7 font-bold px-4">Categories</h2>
       <Swiper
-      slidesPerView={5}
+      slidesPerView={1}
         spaceBetween={5}
         navigation={true}
         pagination={{
           clickable: true,
         }}
         modules={[ Navigation, Pagination]}
-        className="mySwiper"
+          className="mySwiper"
+          breakpoints={{
+            0: {
+              slidesPerView: 1, spaceBetween: 5,
+             }, 
+            640: {
+              slidesPerView: 3, spaceBetween: 5,
+             },
+            1024: { slidesPerView: 5, spaceBetween: 5 },
+          }}
       >
         {category.map((cat)=>
         <>

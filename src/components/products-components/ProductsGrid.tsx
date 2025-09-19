@@ -16,7 +16,7 @@ export default function ProductsGrid({ products }: { products: Product[] }) {
     }, [search, products]);
   
   return (
-<div className="container mx-auto">
+<div className="container mx-auto px-4">
       <h1 className="text-start text-4xl tracking-tighter py-7 font-bold">Products</h1>
 
       <Input
