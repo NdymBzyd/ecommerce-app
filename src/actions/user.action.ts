@@ -30,12 +30,14 @@ export async function getUserData() {
 
         return response.data as UserData
 
-    } catch (error : unknown) {
+    } catch (error: unknown) {
         if (axios.isAxiosError(error)) {
-            throw new Error(error.response?.data.message || "An error has occurred");
-            }
-        throw new Error("An unexpected error has occurred");
-    }
+          console.error("Axios error:", error.response?.data || error.message);
+          throw new Error(error.response?.data.message || "Axios error occurred");
+        }
+        console.error("Unexpected error:", error);
+        throw new Error("Unexpected server error (check logs)");
+      }      
 }
 
 export async function getUserOrders(userId : string) {
