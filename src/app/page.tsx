@@ -10,7 +10,7 @@ export default async function Home() {
   const session = await getServerSession(options)
   console.log(session, "session at home page");
 
-  const {data : products} = (await getProducts())!
+  const {data : products} = await getProducts()
 
   // console.log(products, "data from products");
   

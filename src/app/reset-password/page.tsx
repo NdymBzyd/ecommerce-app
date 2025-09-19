@@ -1,7 +1,7 @@
 "use client"
 import { Input } from '@/components/ui/input'
 import { Button } from "@/components/ui/button"
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import axios from 'axios'
 import { useRouter } from 'next/navigation'
@@ -17,10 +17,17 @@ export default function ResetPasswordPage() {
     email:string;
     newPassword:string;
   }
-  const { register, handleSubmit, formState: { errors }, watch } = useForm<Inputs>({
+  const { register, handleSubmit, formState: { errors } } = useForm<Inputs>({
     mode: "onChange"
   })
   const router = useRouter();
+
+  useEffect(() => {
+    const flowActive = sessionStorage.getItem("forgotPasswordFlow");
+    if (!flowActive) {
+      router.replace("/login"); // redirect if user didn't start flow
+    }
+  }, [router]);
 
   async function onSubmit(values: Inputs){
     console.log(values,"reset password");

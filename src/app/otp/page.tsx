@@ -1,7 +1,7 @@
 "use client"
 import { Input } from '@/components/ui/input'
 import { Button } from "@/components/ui/button"
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import axios from 'axios'
 import { useRouter } from 'next/navigation'
@@ -19,6 +19,13 @@ export default function OTPPage() {
   }
   const {register, handleSubmit, formState:{errors} } = useForm<Inputs>()
   const router = useRouter();
+
+  useEffect(() => {
+    const flowActive = sessionStorage.getItem("forgotPasswordFlow");
+    if (!flowActive) {
+      router.replace("/login");
+    }
+  }, [router]);
 
   async function onSubmit(values: Inputs){
     console.log(values, "resetcode");

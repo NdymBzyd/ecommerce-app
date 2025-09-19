@@ -27,7 +27,8 @@ export default function ForgetPasswordPage() {
     try {
       const response = await axios.post("https://ecommerce.routemisr.com/api/v1/auth/forgotPasswords", values)
       console.log(response);
-      if (response.status === 200){
+      if (response.status === 200) {
+        sessionStorage.setItem("forgotPasswordFlow", "true");
         router.push("/otp")
       }
 
