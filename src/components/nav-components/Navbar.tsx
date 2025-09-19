@@ -7,12 +7,7 @@ import {
   DropdownMenuGroup,
   DropdownMenuItem,
   DropdownMenuLabel,
-  DropdownMenuPortal,
   DropdownMenuSeparator,
-  DropdownMenuShortcut,
-  DropdownMenuSub,
-  DropdownMenuSubContent,
-  DropdownMenuSubTrigger,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import {
@@ -27,58 +22,47 @@ import { Badge } from "@/components/ui/badge"
 import { useCart } from '@/app/Context/CartContext';
 import { useWishlist } from '@/app/Context/WishlistContext';
 import Image from 'next/image';
-import { NavigationMenuLink } from '@radix-ui/react-navigation-menu';
 import { getUserData } from '@/actions/user.action'
-import { set } from 'react-hook-form'
 
 export default function Navbar() {
-
   const [visible, setVisible] = useState(true)
-
   const [lastScrollY, setLastScrollY] = useState(0)
-
-  useEffect(() => {
-    const handleScroll = () => {
-      if (window.scrollY > lastScrollY) {
-        setVisible(false)
-      } else {
-        setVisible(true)
-      }
-      setLastScrollY(window.scrollY)
-    }
-
-    window.addEventListener("scroll", handleScroll)
-
-    return () => {
-      window.removeEventListener("scroll", handleScroll)
-    }
-  },[lastScrollY] )
-
   const [userName, setUserName] = useState<string | null>(null)
-  const firstName = userName?.split(" ")[0] || null
-
-  useEffect(() => {
-  
-    async function fetchUser() {
-      try {
-        const userData = await getUserData();
-        setUserName(userData?.decoded.name);
-      } catch (error) {
-        console.log(error);
-        
-      }
-    }
-    fetchUser()
-},[])
 
   const session = useSession()
-  // console.log(session, "session at brands page");
-
   const { cartDetails } = useCart()
-  // console.log(cartDetails, "cartDetails at navbar");
-
   const { wishlistDetails } = useWishlist()
 
+  // Hide/show navbar on scroll
+  useEffect(() => {
+    const handleScroll = () => {
+      setVisible(window.scrollY < lastScrollY)
+      setLastScrollY(window.scrollY)
+    }
+    window.addEventListener("scroll", handleScroll)
+    return () => window.removeEventListener("scroll", handleScroll)
+  }, [lastScrollY])
+
+  // Fetch user, cart, wishlist reactively on session change
+  useEffect(() => {
+    if (!session.data) {
+      setUserName(null)
+      return
+    }
+
+    const fetchData = async () => {
+      try {
+        const userData = await getUserData()
+        if (userData?.decoded?.name) setUserName(userData.decoded.name)
+      } catch (err) {
+        console.log("User fetch error:", err)
+      }
+    }
+
+    fetchData()
+  }, [session.data])
+
+  const firstName = userName?.split(" ")[0] || null
   return (
     <div className={`fixed top-0 left-0 w-full z-50 transition-transform duration-300 ${
       visible ? "translate-y-0" : "-translate-y-full"
