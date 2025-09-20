@@ -5,11 +5,10 @@ import ProductCard from './ProductCard'
 import { Input } from '@/components/ui/input';
 
 export default function ProductsGrid({
-  products,
-  categoryName,
+  products
 }: {
   products: Product[] 
-  categoryName: string
+  categoryName?: string
 }) {
 
     // console.log(products, "grid products");
