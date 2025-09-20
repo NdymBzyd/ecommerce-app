@@ -8,35 +8,44 @@ import 'swiper/css/pagination';
 import { EffectFade, Navigation, Pagination } from 'swiper/modules';
 import Image from 'next/image';
 import { MoveRight } from 'lucide-react';
+import { useRouter } from "next/navigation";
 
 export default function MainSlider() {
+  const router = useRouter(); 
   const slides = [
     {
       img: "/sliders/asos+beauty.jpg",
       title: "Casual Collection",
       description: "Lorem ipsum dolor sit amet consectetur adipisicing elit.",
-      button: "Shop Now"
+      button: "Shop Now",
+      link: "/categories/6439d30b67d9aa4ca97064b1"
     },
     {
       img: "/sliders/BANNER_5.jpg",
       title: "Summer Style",
       description: "Lorem ipsum dolor sit amet consectetur adipisicing elit.",
-      button: "Shop Now"
+      button: "Shop Now",
+      link: "/categories/6439d5b90049ad0b52b90048"
+
     },
     {
       img: "/sliders/fashion-collection-feature.jpg",
       title: "Fall Collection",
       description: "Lorem ipsum dolor sit amet consectetur adipisicing elit.",
-      button: "Browse this collection!"
+      button: "Browse this collection!",
+      link: "/categories/6439d58a0049ad0b52b9003f"
+
     },
     {
       img: "/sliders/teemo.jpg",
       title: "Cool Collection",
       description: "Lorem ipsum dolor sit amet consectetur adipisicing elit.",
-      button: "Steal his look!"
+      button: "Steal his look!",
+      link: "/categories/6439d40367d9aa4ca97064cc"
+
     },
   ];
-
+  
   return (
     <div className="mx-auto">
       <Swiper
@@ -70,7 +79,7 @@ export default function MainSlider() {
               <p className="py-2 sm:py-4 text-white text-shadow-lg/30 text-lg sm:text-2xl">
                 {slide.description}
               </p>
-              <button className="cursor-pointer px-3 py-2 sm:px-4 sm:py-2 bg-white hover:bg-black transition-all text-[14px] sm:text-[18px] duration-500 rounded text-black hover:text-white flex items-center gap-2">
+              <button className="cursor-pointer px-3 py-2 sm:px-4 sm:py-2 bg-white hover:bg-black transition-all text-[14px] sm:text-[18px] duration-500 rounded text-black hover:text-white flex items-center gap-2" onClick={() => router.push(slide.link)}>
                 {slide.button} <MoveRight className="inline-block" />
               </button>
             </div>

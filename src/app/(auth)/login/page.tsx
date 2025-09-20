@@ -1,24 +1,23 @@
 "use client"
 import { Input } from '@/components/ui/input'
 import { Button } from "@/components/ui/button"
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { useRouter } from 'next/navigation'
-import { signIn } from 'next-auth/react'
+import { signIn, useSession } from 'next-auth/react'
 import Link from 'next/link';
 import { Card } from '@/components/ui/card'
 
 export default function LoginPage() {
 
-  
-  const [errorMessage, setErrorMessage] = useState(null)
+  const [errorMessage, setErrorMessage] = useState<string | null>(null)
   const [isLoading, setIsLoading] = useState(false)
-
+  const { update } = useSession()
   interface Inputs{
     email:string;
     password:string;
   }
-  const {register, handleSubmit, formState:{errors} } = useForm<Inputs>()
+  const {register, handleSubmit, formState:{errors},watch } = useForm<Inputs>()
   const router = useRouter();
 
   async function onSubmit(values: Inputs){
@@ -32,8 +31,13 @@ export default function LoginPage() {
         redirect:false
       })
       console.log(response);
-      if(response?.ok){
+      if (response?.ok) {
+        await update()
         router.push("/")
+      }
+      if (!response?.ok) {
+        setErrorMessage("Invalid credentials")
+        return
       }
     }
     catch (error){
@@ -43,7 +47,11 @@ export default function LoginPage() {
     }
 
   }
-
+  useEffect(() => {
+    if (errorMessage) {
+      setErrorMessage(null);
+    }
+  }, [watch("email"), watch("password")]);
 
 
   return (
@@ -72,7 +80,9 @@ export default function LoginPage() {
             <span className='text-cyan-300 underline hover:text-blue-600'>Sign-Up!</span>
             </Link>
           </p>
-
+            {errorMessage && (
+              <p className="text-red-600 mb-3 text-sm">{errorMessage}</p>
+          )}
           <Button type='submit' disabled={isLoading} className='px-7 hover:bg-slate-900 hover:text-white'>{`Login`}</Button>
       </form>
 
